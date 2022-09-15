@@ -1,0 +1,97 @@
+<%- include("./partials/start.ejs") %>
+    <link rel="stylesheet" href="/css/login_page.css">
+    </head>
+
+    <body>
+        <div class="login_signup_container">
+            <div class="form-container">
+                <div class="form__main-container">
+                    <h1>Login to Your Account</h1>
+                    <form name="login-form" class="login-form" onsubmit="return false">
+                        <div class="form-control-class">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="input-email" required>
+                        </div>
+                        <div class="form-control-class">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="input-password" required>
+                            <a href="/auth/forget-password">Forgot Password?</a>
+                        </div>
+                        <button class="btn btn-primary btn-login" type="submit" onclick="handleSubmit()">Login</button>
+                    </form>
+                </div>
+                <div class="form__secondary-container">
+                    <h1>New Here ?</h1>
+                    <div>
+                        Sign up and discover the power of blockchain
+                    </div>
+                    <button id="btn-signup" class="btn btn-secondary btn-signup" type="button">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        document.getElementById("btn-signup").addEventListener("click", () => {
+            window.location.href = "/auth/signup";
+        });
+
+        document.forms['login-form']['email'].focus();
+
+        const handleSubmit = async () => {
+            const emailElement = document.forms['login-form']['email'];
+            const passwordElement = document.forms['login-form']['password'];
+
+            const email = emailElement.value.trim().toLowerCase();
+            const password = passwordElement.value;
+
+            if (email === '') {
+                emailElement.focus();
+                return;
+            }
+            if (password === '') {
+                passwordElement.focus();
+                return;
+            }
+
+            const data = { email, password }
+
+            const response = await fetch('/auth/login', {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+
+            const json = await response.json();
+
+            if (json.error || response.status !== 200) {
+                alert(json.message);
+                if (json.message === "Email does not exist") {
+                    emailElement.focus();
+                    return;
+                }
+                else if (json.message === "Password is incorrect") {
+                    passwordElement.focus();
+                    return;
+                }
+            }
+            else if (response.status === 200 && json.token && json.user.email === email) {
+                window.location.href = "/";
+            }
+
+            emailElement.value = '';
+            passwordElement.value = '';
+        }
+    </script>
+    <%- include("./partials/footer.ejs") %>
+

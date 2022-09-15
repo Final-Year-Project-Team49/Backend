@@ -1,0 +1,63 @@
+nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 1.6rem 8px !important;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none !important;
+    color: black !important;
+}
+
+.logo-h1 {
+    font-size: 1.5rem !important;
+    font-weight: bold;
+    margin: 0;
+}
+
+.navlist {
+    display: flex;
+    list-style-type: none;
+}
+
+.navitem:last-child > a {
+    background-color: var(--primary) !important;
+    color: white !important;
+    margin: 0 0 0 8px;
+}
+
+.navitem:last-child > a:hover {
+    background-color: var(--primary-dark) !important;
+    color: white !important;
+}
+
+.navitem > a {
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.5rem;
+    border-radius: 3px;
+    color: var(--primary) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.navitem > a:hover {
+    background-color: #dadada;
+}
+
+.message{
+    padding: 16px;
+}
+
+.navbar{
+    padding: 0;
+}
+
+.carousel{
+    padding: 0;
+}
+
+/* Copyright to Team Proxymorons (14291) of Smart India Hackathon 2022 */

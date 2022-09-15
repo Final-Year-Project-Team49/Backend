@@ -1,0 +1,59 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.form-container {
+    height: 80%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: none;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+    padding: 3rem;
+    margin: 5rem;
+}
+
+.update-form, .registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.update-form label, .registration-form label {
+    margin-bottom: 0.3rem;
+}
+
+.update-form input, .registration-form input {
+    height: 2.5rem;
+}
+
+.form-control-class {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.btn-login {
+    padding: 0.5rem 1.5rem;
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 2px;
+    margin-top: 2rem;
+}
+
+/* media queries for screen size less than 850px */
+@media screen and (max-width: 850px) {
+    .form-container {
+        width: 100%;
+        margin: 8px 8px;
+    }
+}
+
+/* Copyright to Team Proxymorons (14291) of Smart India Hackathon 2022 */

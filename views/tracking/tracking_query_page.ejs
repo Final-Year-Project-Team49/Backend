@@ -1,0 +1,12 @@
+<strong>Track Your Farm Produce</strong>
+<br>
+
+<input type="text" name="farm_produce_id" id="farm_produce_id">
+<button id="button">Track</button>
+
+<script>
+    document.getElementById('button').onclick = function() {
+        var x = document.getElementById("farm_produce_id").value;
+        window.location.href = "/track/" + x;
+    }
+</script>

@@ -1,0 +1,197 @@
+<%- include("../partials/start.ejs") %>
+    <link rel="stylesheet" href="/css/producer_page.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/producer_card.css">
+    </head>
+
+    <body>
+        <!-- main wrapper (keep everything inside main wrapper )-->
+        <div class="main-wrapper">
+            <!-- navbar -->
+            <%- include("../partials/navbar.ejs") %>
+            <!-- carousel -->
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="carousel-img d-block w-100" src="./green-farm.jpg" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="carousel-img d-block w-100" src="./wheat.jpg" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="carousel-img d-block w-100" src="./tractor.jpg" alt="Third slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="carousel-img d-block w-100" src="./strawberry.jpg" alt="Third slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div> 
+
+            <br>
+            <!-- dashboard -->
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    <div class="col-xl-8 col-lg-12">
+                        <% farm_produces_by_producer.forEach(produce=> { %>
+                            <div class="dashboard-left-section">
+                                <div class="list__item">
+                                    <div class="list__item-left">
+                                        <div class="group-1">
+                                            <div class="name">
+                                                <h3>
+                                                    <%= produce.name %>
+                                                </h3>
+                                            </div>
+                                            <div class="verified" style="background-color: <% if(produce.collected) { %> #5DE10C <% } else { %> #FBB03B <% } %>;">
+                                                <% if(produce.collected) { %>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+                                                        <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
+                                                    </svg>
+                                                    &nbsp;
+                                                    <span>Verified</span>
+                                                <% } else { %>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16">
+                                                        <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
+                                                    </svg>
+                                                    &nbsp;
+                                                    <span>Pending</span>
+                                                <% } %>
+                                            </div>
+                                            <!-- <div class="status"></div> -->
+                                        </div>
+                                        <div class="description">
+                                            <%= produce.description %>
+                                        </div>
+                                        <br>
+                                        <div class="group-2 mt1">
+                                            <div class="price mr1"><h2 class="currency">₹ <%= produce.transaction_amount %> </h2></div>
+                                            <div class="weight">
+                                                <h4 class="quantity">Qty: <%= produce.weight %></h4>
+                                            </div>
+                                        </div>
+                                        <button class="btn-details" type="button" onclick="showMoreDetails()">More Details</button>
+                                    </div>
+                                    <div class="list__item-right">
+                                        <div class="date-registration">
+                                            <%= new Date(produce.updatedAt).toLocaleString().toUpperCase() %>
+                                        </div>
+                                        <a href="<%= produce.qr_code_url %>" target="_blank">
+                                            <button type="button" class="btn-details">
+                                                View QR
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
+                                                    <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+                                                    <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+                                                </svg>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+        
+                                <div class="item-details">
+                                    <% if(produce.collected) { %>
+                                        <div class="collection__center mb1">
+                                            <h3 class="subheading">Collection Center</h3>
+                                            <div class="collection__center-date">
+                                                <%= new Date(produce.collection_center.updatedAt).toLocaleString().toUpperCase() %>
+                                            </div>
+                                            <div class="collection__center-name">
+                                                <h2 class="secondary-heading"><%= produce.collection_center.collection_center_name %></h2>
+                                            </div>
+                                            <div class="collection__center-address">
+                                                <%= produce.collection_center.address %>
+                                            </div>
+                                            <div class="collection__center-pincode">
+                                                <%= produce.collection_center.pincode %>
+                                            </div>
+                                        </div>
+                                    <% } else { %>
+                                        <div class="mb1 collection_center-null">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FBB03B" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                            </svg>
+                                            &nbsp;
+                                            <p>Reach your nearest collection center</p>
+                                        </div>
+                                    <% } %>
+                                    <hr>
+                                    <h3 class="subheading">Tracking Details</h3>
+                                    <div class="tracking__records-container">
+                                        <% produce.tracking_data.forEach( record => { %>
+                                            <div class="track__record">
+                                                <div class="track__record-event">
+                                                    <%= record.Event %>
+                                                </div>
+                                                <div class="track__record-time">
+                                                    <%= new Date(record.timestamp).toLocaleString().toUpperCase() %>
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <!-- right dashboard section -->
+                    <div class="col-xl-4 col-lg-12">
+                        <div class="dashboard-right-section sticky">
+                            <div class="producer-card">
+                                <div class="producer-card-header">
+                                    <div class="producer-image"></div>
+                                    <div class="producer-info">
+                                        <h3 class="producer-name"><%= user.name %></h3>
+                                        <p class="producer-desc"><%= producer.address %> </p>
+                                        <p class="producer-desc">pincode : <%= producer.pincode %> </p>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="producer-card-body">
+                                    <ul class="status">
+                                        <li>
+                                            <span class="status-value">12</span>
+                                            <span class="status-text">Registered</span>
+                                        </li>
+                                        <li>
+                                            <span class="status-value">7</span>
+                                            <span class="status-text">Shipping</span>
+                                        </li>
+                                        <li>
+                                            <span class="status-value">5</span>
+                                            <span class="status-text">Delivered</span>
+                                        </li>
+                                    </ul>
+                                    
+                                    <div class="action">
+                                        <button class="btn btn-blue mx-1">Update Profile</button>
+                                        <button class="btn btn-blue-outline">Track</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        function showMoreDetails() {
+        }
+    </script>
+
+    <%- include("../partials/footer.ejs") %>
+</html>

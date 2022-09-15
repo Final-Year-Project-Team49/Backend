@@ -1,0 +1,95 @@
+<%- include("../partials/start.ejs") %>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/update_info.css">
+    </head>
+
+    <body>
+        <div class="main-wrapper">
+            <%- include("../partials/navbar.ejs") %>
+                <main>
+                    <div class="form-container">
+                        <h1>Register Farm Produce</h1>
+                        <form class="registration-form" name="registration-form" onsubmit="return false">
+                            <div class="form-control-class">
+                                <label for="name">Item Name</label>
+                                <input type="text" name="name" id="input-item-name" required>
+                            </div>
+                            <div class="form-control-class">
+                                <label for="description">Description</label>
+                                <input type="text" name="description" id="input-description" required>
+                            </div>
+                            <div class="form-control-class">
+                                <label for="weight">Weight</label>
+                                <input type="number" name="weight" id="input-weight" required>
+                            </div>
+                            <div class="form-control-class">
+                                <button class="btn btn-primary btn-login" type="submit"
+                                    onclick="handleSubmit()">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+        </div>
+    </body>
+    <script>
+
+        document.forms['registration-form']['name'].focus();
+
+        async function handleSubmit() {
+            const nameElement = document.forms['registration-form']['name'];
+            const descriptionElement = document.forms['registration-form']['description'];
+            const weightElement = document.forms['registration-form']['weight'];
+
+            const name = nameElement.value.trim().toLowerCase();
+            const description = descriptionElement.value;
+            const weight = weightElement.value;
+
+            if (name === '') {
+                nameElement.focus();
+                return;
+            }
+            if (description === '') {
+                descriptionElement.focus();
+                return;
+            }
+            if (weight === '') {
+                weightElement.focus();
+                return;
+            }
+
+            const data = { name, description, weight }
+
+            const response = await fetch('/producer/register_farm_produce', {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+
+            const json = await response.json();
+
+            if (json.error || response.status !== 200) {
+                alert(json.error);
+            }
+            else if (response.status === 200) {
+                alert(json.message);
+                window.location.href = "/";
+            }
+
+            nameElement.value = '';
+            descriptionElement.value = '';
+            weightElement.value = '';
+        }
+    </script>
+    <%- include("../partials/footer.ejs") %>
+</html>

@@ -1,0 +1,126 @@
+@media print {
+    header,
+    main {
+        display: none;
+    }
+    .print {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        flex-wrap: wrap;
+    }
+    .print__card-outline {
+        display: grid;
+        place-items: center;
+        width: 46vw;
+        padding: 1rem;
+        margin: 1rem;
+        border: 2px dashed black;
+        position: relative;
+    }
+    .print__card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+    }
+    .print__card-outline > h5 {
+        color: #666666;
+        font-size: 14px;
+        font-weight: 600;
+        transform: rotate(-90deg);
+        position: absolute;
+        right: -11rem;
+        top: 16rem;
+    }
+    .print__card > h3 {
+        font-size: 1.7rem;
+        font-weight: 400;
+    }
+    .print__card-qrcode {
+        width: 60%;
+        aspect-ratio: 1;
+        margin: 1rem;
+        -webkit-print-color-adjust: exact;
+        -webkit-filter: opacity(1);
+        -webkit-filter: drop-shadow(0px 0px 10px #dddddd);
+    }
+    .print__card-logo {
+        width: 60%;
+    }
+    .print__card-address {
+        width: 75%;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    .barcode-heading {
+        margin: 0.7rem 0;
+    }
+    .print__card-barcode {
+        width: 90%;
+    }
+}
+@media screen {
+    header,
+    main {
+        display: none;
+    }
+    .print {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        flex-wrap: wrap;
+    }
+    .print__card-outline {
+        display: grid;
+        place-items: center;
+        width: 46vw;
+        padding: 1rem;
+        margin: 1rem;
+        border: 2px dashed black;
+        position: relative;
+    }
+    .print__card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+    }
+    .print__card-outline > h5 {
+        color: #666666;
+        font-size: 14px;
+        font-weight: 600;
+        transform: rotate(-90deg);
+        position: absolute;
+        right: -11rem;
+        top: 16rem;
+    }
+    .print__card > h3 {
+        font-size: 1.7rem;
+        font-weight: 400;
+    }
+    .print__card-qrcode {
+        width: 60%;
+        aspect-ratio: 1;
+        margin: 1rem;
+        -webkit-print-color-adjust: exact;
+        -webkit-filter: opacity(1);
+        -webkit-filter: drop-shadow(0px 0px 10px #dddddd);
+    }
+    .print__card-logo {
+        width: 60%;
+    }
+    .print__card-address {
+        width: 75%;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    .barcode-heading {
+        margin: 0.7rem 0;
+    }
+    .print__card-barcode {
+        width: 90%;
+    }
+}
+
+/* Copyright to Team Proxymorons (14291) of Smart India Hackathon 2022 */

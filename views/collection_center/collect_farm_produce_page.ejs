@@ -1,0 +1,115 @@
+<%- include("../partials/start.ejs") %>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/update_info.css">
+    </head>
+
+    <body>
+        <div class="main-wrapper">
+        <!-- navbar -->
+        <%- include("../partials/navbar.ejs") %>
+
+        <!-- form -->
+        <main>
+            <div class="form-container">
+                <h1>Collect Farm Produce</h1>
+                <form class="collection-form" name="collection-form" onsubmit="return false">
+                    <div class="form-control-class">
+                        <label for="produceid">Produce ID</label>
+                        <input name="produceid" type="text" value="<%= farm_produce._id%>" disabled>
+                    </div>
+                    <div class="form-control-class">
+                        <label for="amount">Transaction Amount</label>
+                        <input type="number" name="amount" id="input-amount" required>
+                    </div>
+                    <div class="form-control-class">
+                        <label for="hardware_id">Attached Hardware Id</label>
+                        <input type="text" name="hardware_id" id="hardware_id">
+                    </div>
+                    <div class="form-control-class">
+                        <label for="notes">Notes</label>
+                        <input type="text" name="notes" id="input-notes" required>
+                    </div>
+                    <div class="form-control-class">
+                        <button class="btn btn-primary btn-login" type="submit" onclick="handleSubmit()">Collect</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        </div>        
+    </body>
+    <script>
+
+        document.forms['collection-form']['amount'].focus();
+
+        async function handleSubmit() {
+            const amountElement = document.forms['collection-form']['amount'];
+            const hardware_idElement = document.forms['collection-form']['hardware_id'];
+            const notesElement = document.forms['collection-form']['notes'];
+
+            const amount = amountElement.value.trim().toLowerCase();
+            const hardware_id = hardware_idElement.value;
+            const notes = notesElement.value.trim().toLowerCase();
+
+            const idElement = document.forms['collection-form']['produceid'];
+            const id = idElement.value.trim();
+
+            if (amount === '') {
+                amountElement.focus();
+                return;
+            }
+            if (notes === '') {
+                notesElement.focus();
+                return;
+            }
+
+            const data = { transaction_amount: amount, notes, hardware_id, id }
+
+            const response = await fetch(`/collection_center/collect/${id}`, {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+
+            const json = await response.json();
+
+            if (json.error || response.status !== 200) {
+                alert(json.message);
+            }
+            else if (response.status === 200) {
+                alert(json.message);
+                console.log(response.url)
+                window.location.href = `/collection_center/info/${id}`;
+            }
+
+            amountElement.value = '';
+            notesElement.value = '';
+        }
+    </script>
+    <%- include("../partials/footer.ejs") %>
+
+</html>
+
+<br>
+<p>title : <%= title %> </p>
+<p>user.name : <%= user.name %> </p>
+<p>user.email : <%= user.email %> </p>
+<p>user.role : <%= user.role %> </p>
+<br>
+<p>collection_center.collection_center_name : <%= collection_center.collection_center_name %> </p>
+<p>collection_center.address : <%= collection_center.address %> </p>
+<p>collection_center.pincode : <%= collection_center.pincode %> </p>
+<p>collection_center.details_updated : <%= collection_center.details_updated %> </p>
+<p>collection_center.details_verified : <%= collection_center.details_verified %> </p>
+<br>
+<p>farm_produce : <%= farm_produce %> </p>

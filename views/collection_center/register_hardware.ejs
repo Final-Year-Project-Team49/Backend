@@ -1,0 +1,115 @@
+<%- include("../partials/start.ejs") %>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/update_info.css">
+    <title><%= title %> </title>
+    </head>
+
+    <body>
+        <div class="main-wrapper">
+            <header>
+                <%- include("../partials/navbar.ejs") %>
+            </header>
+            <main>
+                <div class="form-container">
+                    <h1>Register Hardware</h1>
+                    <form class="update-form" name="update-form" onsubmit="return false">
+                        <div class="form-control-class">
+                            <label for="name">Hardware Name</label>
+                            <input type="text" name="hardware_name" id="hardware_name" required>
+                        </div>
+                        <div class="form-control-class">
+                            <label for="name">Hardware ID</label>
+                            <input type="text" name="hardware_id" id="hardware_id" required>
+                        </div>
+                        <div class="form-control-class">
+                            <label for="name">Hardware Type</label>
+                            <input type="text" name="hardware_type" id="hardware_type">
+                        </div>
+                        <div class="form-control-class">
+                            <label for="name">Hardware Description</label>
+                            <input type="text" name="hardware_description" id="hardware_description">
+                        </div>
+                        <div class="form-control-class">
+                            <label for="name">Hardware Secret Key</label>
+                            <input type="password" name="hardware_secret_key" id="hardware_secret_key" required>
+                        </div>
+                        <div class="form-control-class">
+                            <button class="btn btn-primary btn-login" type="submit" onclick="handleSubmit()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </body>
+    <script>
+
+        document.forms['update-form']['name'].focus();
+
+        async function handleSubmit() {
+            const hardwareNameElement = document.forms['update-form']['hardware_name'];
+            const hardwareIdElement = document.forms['update-form']['hardware_id'];
+            const hardwareTypeElement = document.forms['update-form']['hardware_type'];
+            const hardwareDescriptionElement = document.forms['update-form']['hardware_description'];
+            const hardwareSecretKeyElement = document.forms['update-form']['hardware_secret_key'];
+
+            const hardware_name = hardwareNameElement.value.trim().toLowerCase();
+            const hardware_id = hardwareIdElement.value;
+            const hardware_type = hardwareTypeElement.value;
+            const hardware_description = hardwareDescriptionElement.value;
+            const hardware_secret_key = hardwareSecretKeyElement.value;
+
+            if (hardware_name === '') {
+                nameElement.focus();
+                return;
+            }
+            if (hardware_id === '') {
+                idElement.focus();
+                return;
+            }
+            if (hardware_secret_key === '') {
+                typeElement.focus();
+                return;
+            }
+
+            const data = {
+                hardware_name: hardware_name,
+                hardware_id: hardware_id,
+                hardware_type: hardware_type,
+                hardware_description: hardware_description,
+                hardware_secret_key: hardware_secret_key
+            };
+
+            const response = await fetch('/collection_center/register_hardware', {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+
+            const json = await response.json();
+
+            if (json.error || response.status !== 200) {
+                alert(json.error);
+            }
+            else if (response.status === 200) {
+                alert(json.message);
+                window.location.href = "/";
+            }
+
+            nameElement.value = '';
+            addressElement.value = '';
+            pincodeElement.value = '';
+        }
+    </script>
+
+    </html>

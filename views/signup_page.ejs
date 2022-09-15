@@ -1,0 +1,133 @@
+<%- include("./partials/start.ejs") %>
+    <link rel="stylesheet" href="/css/signup_page.css">
+    </head>
+
+    <body>
+        <div class="login-signup-container">
+            <div class="form-container">
+                <div class="form__main-container">
+                    <h1>Create Your Account</h1>
+                    <form class="login-form" name="login-form" onsubmit="return false">
+                        <div class="form-control-class">
+                            <input type="text" name="name" id="input-name" placeholder="Name" required>
+                        </div>
+                        <div class="form-control-class">
+                            <input type="email" name="email" id="input-email" placeholder="Email" required>
+                        </div>
+                        <div class="form-control-class">
+                            <input type="password" name="password" id="input-password" placeholder="Password" required>
+                        </div>
+                        <div class="form-control-class">
+                            <input type="password" name="confirm-password" id="input-confirm-password"
+                                placeholder="Confirm Password" required>
+                        </div>
+                        <div class="form-control-class">
+                            <select name="role" id="input-role" required>
+                                <option value="" selected disabled hidden>Role</option>
+                                <% roles.forEach( role => {%>
+                                    <option value="<%= role %>"><%= role %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="form-control-class">
+                            <button class="btn btn-primary btn-login" type="submit" onclick="handleSubmit()">Create
+                                Account</button>
+                        </div>
+                        <a href="/auth/login">Already have a account ? Login instead</a>
+                    </form>
+                </div>
+                <div class="form__secondary-container">
+                    <h1>New Here ?</h1>
+                    <div>
+                        <p>We track produce from the farm to the store,</p>
+                        <p>so you get what you intended to buy.</p>
+                        <p>Find our work interesting ?</p>
+                    </div>
+                    <button id="btn-signup" class="btn btn-secondary btn-signup" type="button">Know More</button>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        document.getElementById("btn-signup").addEventListener("click", () => {
+            window.location.href = "/";
+        });
+
+        document.forms['login-form']['name'].focus();
+
+        const handleSubmit = async () => {
+            const nameElement = document.forms['login-form']['name'];
+            const emailElement = document.forms['login-form']['email'];
+            const passwordElement = document.forms['login-form']['password'];
+            const confirmPasswordElement = document.forms['login-form']['confirm-password'];
+            const roleElement = document.forms['login-form']['role'];
+
+
+            const name = nameElement.value.trim().toLowerCase();
+            const email = emailElement.value.trim().toLowerCase();
+            const password = passwordElement.value;
+            const confirmPassword = confirmPasswordElement.value;
+            const role = roleElement.value;
+
+            if (name === '') {
+                nameElement.focus();
+                return;
+            }
+
+            if (email === '') {
+                nameElement.focus();
+                return;
+            }
+
+            if (password === '') {
+                passwordElement.focus();
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                passwordElement.focus();
+                return;
+            }
+
+            const data = { name, email, password, role }
+
+            const response = await fetch('/auth/signup', {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+
+            const json = await response.json();
+
+            if (json.error || response.status !== 200) {
+                alert(json.message);
+                if (json.message === "Email already exists") {
+                    emailElement.focus();
+                    return;
+                }
+            }
+            else if (response.status === 200 && json.token && json.user.email === email) {
+                window.location.href = "/";
+            }
+
+            nameElement.value = '';
+            emailElement.value = '';
+            passwordElement.value = '';
+            confirmPasswordElement.value = '';
+            roleElement.value = '';
+        }
+    </script>
+
+    </html>

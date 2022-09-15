@@ -1,0 +1,61 @@
+<%- include("../partials/start.ejs") %>
+    <link rel="stylesheet" href="/css/logistic_page.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    </head>
+
+    <body>
+        <header>
+            <%- include("../partials/navbar.ejs") %>
+        </header>
+        <main>
+            <div class="container">
+                <div class="wrapper-1">
+                    <div class="logistic-form">
+                        <form name="logistic-form" onsubmit="return false">
+                            <label for="produceid">Produce ID</label>
+                            <input type="text" name="produceid" id="produceid">
+                            <button type="submit" onclick="handleArrival()">Aarrival</button>
+                            <button type="submit" onclick="handleDeparture()">Departure</button>
+                        </form>
+                    </div>
+                    
+                    <div class="collected__produce-container">
+                        
+                    </div>
+                </div>
+    
+                <div class="collection__center-details">
+                    <p><%= logistic %> </p>
+                </div>
+            </div>
+        </main>
+    </body>
+    <script>
+        document.forms['logistic-form']['produceid'].focus();
+
+        const handleSubmit = async () => {
+            const idElement = document.forms['logistic-form']['produceid'];
+
+            const id = idElement.value.trim();
+
+            if (id === '') {
+                idElement.focus();
+                return;
+            }
+
+            const response = await fetch(`/logistic/update/${id}`);
+            if (response.status === 200) {
+                window.location.href = response.url;
+                idElement.value = '';
+                return;
+            }
+
+            const json = await response.json();
+            if (json.error || response.status !== 200) {
+                alert(json.message);
+            }
+
+            idElement.value = '';
+        }
+    </script>
+    </html>

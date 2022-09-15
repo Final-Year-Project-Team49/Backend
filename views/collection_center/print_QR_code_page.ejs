@@ -1,0 +1,140 @@
+<%- include("../partials/start.ejs") %>
+    <link rel="stylesheet" href="/css/collection_center_page.css">
+    <link rel="stylesheet" media="print" href="/css/printing_page.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    </head>
+
+    <body>
+
+        <div class="print">
+            <div class="print__card-outline">
+                <h5>
+                    <%= farm_produce.createdAt %>
+                </h5>
+                <div class="print__card">
+                    <h3>Scan to get tracking details</h3>
+                    <img src="<%= farm_produce.qr_code_url %>" class="print__card-qrcode" alt="<%= farm_produce._id %>">
+                    <div class="print__card-address">Destination: Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Dolore praesentium fuga animi quo</div>
+                    <img src="/block_trackers.svg" class="print__card-logo" alt="block_trackers">
+                    <div class="barcode-heading">Scan to know your farmer</div>
+                    <img src="/barcode.gif" class="print__card-barcode" alt="barcode">
+                </div>
+            </div>
+            <div class="print__card-outline">
+                <h5>
+                    <%= farm_produce.createdAt %>
+                </h5>
+                <div class="print__card">
+                    <h3>Scan to get tracking details</h3>
+                    <img src="<%= farm_produce.qr_code_url %>" class="print__card-qrcode" alt="<%= farm_produce._id %>">
+                    <div class="print__card-address">Destination: Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Dolore praesentium fuga animi quo</div>
+                    <img src="/block_trackers.svg" class="print__card-logo" alt="block_trackers">
+                    <div class="barcode-heading">Scan to know your farmer</div>
+                    <img src="/barcode.gif" class="print__card-barcode" alt="barcode">
+                </div>
+            </div>
+            <div class="print__card-outline">
+                <h5>
+                    <%= farm_produce.createdAt %>
+                </h5>
+                <div class="print__card">
+                    <h3>Scan to get tracking details</h3>
+                    <img src="<%= farm_produce.qr_code_url %>" class="print__card-qrcode" alt="<%= farm_produce._id %>">
+                    <div class="print__card-address">Destination: Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Dolore praesentium fuga animi quo</div>
+                    <img src="/block_trackers.svg" class="print__card-logo" alt="block_trackers">
+                    <div class="barcode-heading">Scan to know your farmer</div>
+                    <img src="/barcode.gif" class="print__card-barcode" alt="barcode">
+                </div>
+            </div>
+            <div class="print__card-outline">
+                <h5>
+                    <%= farm_produce.createdAt %>
+                </h5>
+                <div class="print__card">
+                    <h3>Scan to get tracking details</h3>
+                    <img src="<%= farm_produce.qr_code_url %>" class="print__card-qrcode" alt="<%= farm_produce._id %>">
+                    <div class="print__card-address">Destination: Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Dolore praesentium fuga animi quo</div>
+                    <img src="/block_trackers.svg" class="print__card-logo" alt="block_trackers">
+                    <div class="barcode-heading">Scan to know your farmer</div>
+                    <img src="/barcode.gif" class="print__card-barcode" alt="barcode">
+                </div>
+            </div>
+        </div>
+        <div class="main-wrapper">
+            <header>
+                <%- include("../partials/navbar.ejs") %>
+            </header>
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    <div class="col-xl-8 col-lg-12">
+                        <div class="dashboard-left-section">
+
+                            <div class="print__card-outline">
+                                <h5>
+                                    <%= farm_produce.createdAt %>
+                                </h5>
+                                <div class="print__card">
+                                    <h3>Scan to get tracking details</h3>
+                                    <img src="<%= farm_produce.qr_code_url %>" class="print__card-qrcode" alt="<%= farm_produce._id %>">
+                                    <div class="print__card-address">Destination: Lorem, ipsum dolor sit amet consectetur adipisicing
+                                        elit. Dolore praesentium fuga animi quo</div>
+                                    <img src="/block_trackers.svg" class="print__card-logo" alt="block_trackers">
+                                    <div class="barcode-heading">Scan to know your farmer</div>
+                                    <img src="/barcode.gif" class="print__card-barcode" alt="barcode">
+                                </div>
+                            </div>
+
+                            <div class="collection__center-details">
+                                <div><strong>Item Name:</strong> <%= farm_produce.name %></div>
+                                <div><strong>Description:</strong> <%= farm_produce.description %></div>
+                                <div><strong>Weight:</strong> <%= farm_produce.weight %></div>
+                                <div><strong>Producer:</strong> <%= farm_produce.tracking_data[0].producer %></div>
+                                <button type="button" class="btn btn-primary" onclick="printPage()">Print</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-12">
+                        <div class="dashboard-right-section">
+
+                            <div class="wrapper-1">
+                                <img src="<%= farm_produce.qr_code_url %>" alt="<%= farm_produce._id %>">
+                                <br>
+                                <div><%= farm_produce.qr_code_url.split('/').at(-1) %></div>
+                                <button type="button" class="btn btn-primary" onclick="downloadImage()">Download</button>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        async function downloadImage() {
+            fetch("<%- farm_produce.qr_code_url %>", {
+                method: "GET",
+                headers: {}
+            }).then((response) => {
+                response.arrayBuffer().then(function (buffer) {
+                    const url = window.URL.createObjectURL(new Blob([buffer]));
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = "<%= farm_produce._id %>.png";
+                    link.click();
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+
+        function printPage() {
+            window.print();
+        }
+    </script>
+
+    </html>

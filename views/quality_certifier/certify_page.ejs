@@ -1,0 +1,87 @@
+<%- include("../partials/start.ejs") %>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/update_info.css">
+    </head>
+
+    <body>
+        <div class="main-wrapper">
+        <!-- navbar -->
+        <%- include("../partials/navbar.ejs") %>
+
+        <!-- form -->
+        <main>
+            <div class="form-container">
+                <h1>Give Quality Certifications</h1>
+                <form class="collection-form" name="collection-form" onsubmit="return false">
+                    <div class="form-control-class">
+                        <label for="produceid">Produce ID</label>
+                        <input name="produceid" id="produceid" type="text" value="<%= produce_id%>" disabled>
+                    </div>
+
+                    <div class="form-control-class">
+                        <label for="certification_id">Certification ID</label>
+                        <input type="text" name="certification_id" id="certification_id" required>
+                    </div>
+
+                    <div class="form-control-class">
+                        <label for="remarks">Remarks</label>
+                        <input type="text" name="remarks" id="remarks" required>
+                    </div>
+
+                    <div class="form-control-class">
+                        <button class="btn btn-primary btn-login" type="submit" onclick="handleSubmit()">Certify</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        </div>        
+    </body>
+    <script>
+
+        async function handleSubmit() {
+            
+            producer_id = document.getElementById("produceid").value;
+
+            // certification_id
+            const certification_id = document.forms['collection-form']['certification_id'].value;
+
+            // remarks
+            const remarks = document.forms['collection-form']['remarks'].value;
+
+            const data = { certification_id, remarks };
+
+            const response = await fetch(`/quality_certifier/certify/${producer_id}`, {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(data)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+
+            const json = await response.json();
+
+            if (json.error || response.status !== 200) {
+                alert(json.message);
+            }
+            else if (response.status === 200) {
+                alert(json.message);
+                console.log(response.url)
+                window.location.href = `/`;
+            }
+
+            amountElement.value = '';
+            notesElement.value = '';
+        }
+    </script>
+    <%- include("../partials/footer.ejs") %>
+
+</html>

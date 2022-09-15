@@ -1,0 +1,105 @@
+.login-signup-container {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    place-items: center;
+}
+
+.login-signup-container::before {
+    content: "";
+    height: 100vh;
+    width: 40%;
+    position: absolute;
+    right: 0;
+    background-color: var(--primary);
+    z-index: -10;
+}
+
+.form-container {
+    height: 80%;
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    background: none;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+    padding: 3rem 0;
+}
+
+.form__main-container {
+    width: 66.5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.login-form {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-form label {
+    margin-bottom: 0.3rem;
+}
+
+.login-form input, select {
+    height: 2.5rem;
+}
+
+.login-form select {
+    color: gray;
+}
+
+.login-form option {
+    color: black;
+}
+
+.login-form a {
+    text-align: right;
+    color: var(--primary);
+    font-size: smaller;
+}
+
+.form-control-class {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.btn-login {
+    padding: 0.5rem 1.5rem;
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 2px;
+    margin-top: 2rem;
+}
+
+.form__secondary-container {
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.form__secondary-container h1 {
+    margin-bottom: 1rem;
+}
+
+.form__secondary-container div {
+    text-align: center;
+    width: 70%;
+}
+
+.btn-signup {
+    padding: 0.5rem 1.5rem;
+    margin-top: 2rem;
+    border-radius: 2px;
+}
+
+/* Copyright to Team Proxymorons (14291) of Smart India Hackathon 2022 */

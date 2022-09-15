@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/global.css">
+    <title>
+        <%= name %>
+    </title>
+    <style>
+        details {
+            width: 85%;
+            margin: 0.7rem 0;
+        }
+        summary {
+            cursor: pointer;
+            box-shadow: var(--shadow-mini);
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+        
+        details > div {
+            margin-top: 0.5rem;
+            padding: 1rem 0.5rem;
+            background-color: #E0E0E0;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .pid {
+            background-color: #E0E0E0;
+            padding: 0.3rem 0.5rem;
+            border: 1px solid #bebebe;
+            margin: 2rem 0;
+            border-radius: 2px;
+            color: #707070;
+        }
+        .pname {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #bebebe;
+        }
+        .inp {
+            width: 80%;
+        }
+        .event__header {
+            display: grid;
+            align-items: center;
+            column-gap: 0.5rem;
+            grid-template-columns: 7fr 5fr;
+            position: relative;
+        }
+        .event__header-event {
+            font-size: 14px;
+            font-weight: 700;
+            pointer-events: none;
+        }
+        .event__header-time {
+            font-size: 10px;
+            font-weight: 600;
+            text-align: right;
+            color: #FBB03B;
+        }
+        .event__header::before {
+            content: '';
+            background-color: #c4c4c4;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            position: absolute;
+            left: -45px;
+        }
+        details[open] > .event__header::before {
+            background-color: #FBB03B;
+        }
+        .tracking__details-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding-right: 1rem;
+            margin-top: 1rem;
+        }
+        .event__details-field {
+            font-size: 12px;
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="pid">Product ID: <%= id %> </div>
+        <h2 class="pname"><%= name %></h2>
+        <div class="tracking__details-container">
+            <% tracking_data.forEach(element=> { %>
+                <details>
+                    <% const keys=Object.keys(element); %>
+                        <summary class="event__header">
+                            <div class="event__header-event"><h3><%= element.Event %></h3></div>
+                            <div class="event__header-time"><%= new Date(element.timestamp).toLocaleString().toUpperCase() %></div>
+                        </summary>
+                        <div class="event__details">
+                            <% keys.forEach(key=> { %>
+                                <% if(key !=='Event' && key !=='timestamp' ) { %>
+                                    <div class="event__details-field">
+                                        <strong>
+                                            <%= key.toUpperCase().replaceAll('_', ' ') %> :
+                                        </strong>
+                                        <%= element[key] %>
+                                    </div>
+                                <% } %>
+                            <% }) %>
+                        </div>
+                </details>
+            <% }) %>
+        </div>
+    </div>
+</body>
+
+</html>
